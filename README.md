@@ -48,4 +48,4 @@ to answer many questions.
 Applications:
 VQA has the distinctive advantage of pushing the frontiers on “AI-complete” problems while being amenable to automatic evaluation. Given the recent progress in the community, we believe the time is ripe to take on such an endeavor.
 
-
+Reference :- https://keras.io/getting-started/functional-api-guide/
