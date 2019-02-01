@@ -1,4 +1,4 @@
-# INFO-7374 Functional AI
+# INFO-7374 Functional API
 Introduction
 “More data beats clever algorithms, but better data beats more data.” 
  Creating better data depends on the model. A model is a sequence of data with fully configurable modules which can be plugged in easily with any framework to get trained and performed effortlessly. Keras being user-friendly, modular, extensible with python base makes creating models straightforward. The core data structure of Keras is organizing layers and deals with three different methodologies of layering which are  Sequential model- a linear stack of layers and  Keras functional API.
