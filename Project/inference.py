@@ -4,7 +4,8 @@ import numpy as np
 from statistics import mode
 from PIL import Image
 from scipy.misc import imresize
-
+import os
+import pathlib as p
 
 def load_detection_model(model_path):
     detection_model = cv2.CascadeClassifier(model_path)
@@ -53,19 +54,14 @@ def predict(image,model):
 
 
 # parameters for loading data and images
-
-detection_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                       'emotion detection project/haarcascade_frontalface_default.xml'
-emotion_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                     'emotion detection project/trained_models.36.hdf5'
-open_eye_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                       'emotion detection project/haarcascade_eye_tree_eyeglasses.xml'
-left_eye_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                       'emotion detection project/haarcascade_lefteye_2splits.xml'
-right_eye_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                       'emotion detection project/haarcascade_righteye_2splits.xml'
-eye_detection_model_path = 'C:/Users/parag/OneDrive/Documents/Neural Networks and AI/' \
-                       'emotion detection project/eye_classifier_17.hdf5'
+#enter the file names and directories accordingly in the following path variables
+path = os.path.dirname(__file__)
+detection_model_path = path+'/openCV_helper/' + 'haarcascade_frontalface_default.xml'
+emotion_model_path = path+'/emotion_classifier/' + 'trained_models.16.hdf5'
+open_eye_model_path = path+'/openCV_helper/' + 'haarcascade_eye_tree_eyeglasses.xml'
+left_eye_model_path = path+'/openCV_helper/' + 'haarcascade_lefteye_2splits.xml'
+right_eye_model_path = path+'/openCV_helper/' + 'haarcascade_righteye_2splits.xml'
+eye_detection_model_path = path+'/eye_classifier_trained_model/' + 'eye_classifier_17.hdf5'
 
 emotion_labels = {0: "angry", 1: "closed", 2: "disgusted", 3: "fearful", 4: "happy", 5: "neutral", 6: "sad", 7: "surprise"}
 
@@ -85,7 +81,7 @@ print(emotion_target_size)
 print(eye_target_size)
 emotion_window = []
 emotion_offsets = (10, 40)
-frame_window = 10
+frame_window = 1
 angry,closed,happy,neutral=0,0,0,0
 # starting video streaming
 cv2.namedWindow('window_frame')
@@ -114,14 +110,18 @@ while True:
         emotion_probability = np.max(emotion_prediction)
         emotion_label_arg = int(np.argmax(emotion_prediction))
 
-        if emotion_label_arg == 0:
-            angry = angry+1
-        elif emotion_label_arg== 1:
-            closed = closed+ 1
-        elif emotion_label_arg == 4:
-            happy = happy + 1
-        elif emotion_label_arg == 5:
-            neutral = neutral + 1
+
+        #################################
+        #   Testing
+        # if emotion_label_arg == 0:
+        #     angry = angry+1
+        # elif emotion_label_arg== 1:
+        #     closed = closed+ 1
+        # elif emotion_label_arg == 4:
+        #     happy = happy + 1
+        # elif emotion_label_arg == 5:
+        #     neutral = neutral + 1
+        #################################
 
         emotion_text = emotion_labels[emotion_label_arg]
         #print(angry,closed,happy,neutral)
@@ -134,6 +134,7 @@ while True:
         except:
             continue
 
+        # define the color for text
         if emotion_text == 'angry':
             color = emotion_probability * np.asarray((255, 0, 0))
         elif emotion_text == 'closed':
@@ -223,3 +224,4 @@ while True:
     cv2.imshow('window_frame', bgr_image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
